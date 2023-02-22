@@ -7,12 +7,8 @@ module Store
       puts (i.to_s + " " + ele)
       i+=1
     end
-
   end
 
-  class Products
-    def initialize()
-  end
 end
 
 
