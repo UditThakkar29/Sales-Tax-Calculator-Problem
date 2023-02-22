@@ -13,12 +13,13 @@ class TaxCalculator
     else
       tax = calculate_basic(item.p_price)
     end
-    puts "value for check #{item.check_item_exempt}"
-    puts "Printing #{item.p_name} tax without import #{tax}"
+    # puts "value for check #{item.check_item_exempt}"
+    # puts "Printing #{item.p_name} tax without import #{tax}"
+    # puts "value for isImpored #{item.isImported}"
     if item.isImported
       tax += calculate_imported(item.p_price)
     end
-    puts "Printing #{item.p_name}  tax after import #{tax}"
+    # puts "Printing #{item.p_name}  tax after import #{tax}"
     tax
   end
 
@@ -69,7 +70,11 @@ class Item
   end
 
   def isImported
-    @imported
+    if @imported == 0
+      return false
+    else
+      return true
+    end
   end
   def is_food
     return @p_food
