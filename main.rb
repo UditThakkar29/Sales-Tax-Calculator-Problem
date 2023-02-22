@@ -68,7 +68,7 @@ class Receipt
       puts "\t\t\t\t\t #{quant} #{name} : #{arr[0]*quant.round(2)}"
     end
     puts "\t\t\t\t\t Sales Tax: #{total_tax.round(2)}"
-    puts "\t\t\t\t\t Total Bill: #{total_bill}"
+    puts "\t\t\t\t\t Total Bill: #{total_bill.round(2)}"
   end
 end
 
