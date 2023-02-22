@@ -41,16 +41,23 @@ class TaxCalculator
 end
 
 class Receipt
-  attr_accessor :tax_array
+  attr_accessor :tax_array, :cust_name, :cust_phone
   def initialize(tax_array)
     @tax_array = tax_array
   end
   def Printing
     # puts @tax_array.inspect
+    puts `clear`
+    puts "Enter Your Name here"
+    @cust_name = gets.chomp
+    puts "Enter your phone no"
+    @cust_phone = gets.chomp
+    puts `clear`
     total_tax = 0
     total_bill = 0
-    puts "Thank You for Shopping"
-    puts "Here is you Receipt"
+    puts "\t\t\t\t\t Hello #{@cust_name}!"
+    puts "\t\t\t\t\t Thank You for Shopping"
+    puts "\t\t\t\t\t Here is you Receipt"
     @tax_array.each do |arr|
       quant = arr[3]
       tax = (arr[0] - arr[1])*quant
@@ -58,10 +65,10 @@ class Receipt
       total_bill+=arr[0] * quant
       name = arr[2]
       quant = arr[3]
-      puts "#{quant} #{name} : #{arr[0]*quant}"
+      puts "\t\t\t\t\t #{quant} #{name} : #{arr[0]*quant}"
     end
-    puts "Sales Tax: #{total_tax}"
-    puts "Total Bill: #{total_bill}"
+    puts "\t\t\t\t\t Sales Tax: #{total_tax}"
+    puts "\t\t\t\t\t Total Bill: #{total_bill}"
   end
 end
 
@@ -125,8 +132,6 @@ class Item
 end
 
 def start
-  puts "Welcome to the shop"
-
   get_all_products
   puts $products.inspect
   items = []
