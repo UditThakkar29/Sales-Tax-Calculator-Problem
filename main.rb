@@ -48,7 +48,9 @@ class Cart
     @tax_arr = []
     @items.map do |item|
       tax = calc.calculate(item)
-      @tax_arr.push(tax)
+      h = Hash.new
+      h[item.p_name] = tax
+      @tax_arr.push(h)
     end
   end
   def output_tax
