@@ -9,15 +9,15 @@ class TaxCalculator
 
   def calculate(item)
     tax = 0
-    if item.check_item_exempt == true
+    if item.check_item_exempt?
       tax = exempt_tax(item.p_price)
     else
       tax = calculate_basic(item.p_price)
     end
-    # puts "value for check #{item.check_item_exempt}"
+    # puts "value for check #{item.check_item_exempt?}"
     # puts "Printing #{item.p_name} tax without import #{tax}"
-    # puts "value for isImpored #{item.isImported}"
-    if item.isImported
+    # puts "value for isImpored #{item.isImported?}"
+    if item.isImported?
       tax += calculate_imported(item.p_price)
       # puts "Printing #{item.p_name}  tax after import #{tax}"
     end
@@ -65,9 +65,9 @@ class Receipt
       total_bill+=arr[0] * quant
       name = arr[2]
       quant = arr[3]
-      puts "\t\t\t\t\t #{quant} #{name} : #{arr[0]*quant}"
+      puts "\t\t\t\t\t #{quant} #{name} : #{arr[0]*quant.round(2)}"
     end
-    puts "\t\t\t\t\t Sales Tax: #{total_tax}"
+    puts "\t\t\t\t\t Sales Tax: #{total_tax.round(2)}"
     puts "\t\t\t\t\t Total Bill: #{total_bill}"
   end
 end
@@ -104,10 +104,10 @@ class Item
     @imported = imported
     @p_food = food
     @p_med = med
-    puts "#{@p_name} #{@p_price} #{@p_quant} #{@imported}"
+    # puts "#{@p_name} #{@p_price} #{@p_quant} #{@imported}"
   end
 
-  def isImported
+  def isImported?
     if @imported == 0
       return false
     else
@@ -120,7 +120,7 @@ class Item
   def is_medicine
     return @p_med
   end
-  def check_item_exempt
+  def check_item_exempt?
     # puts "inside exempt"
     if is_food or is_medicine or @p_name.downcase == "book"
       return true
@@ -151,7 +151,7 @@ def start
       break
     end
     puts "Enter the price of the product"
-    price = gets.chomp().to_i
+    price = gets.chomp().to_f.round(2)
     puts "Enter the quantity"
     quant = gets.chomp.to_i
     puts "Is your item imported Enter 1 for imported 0 for not imported"
