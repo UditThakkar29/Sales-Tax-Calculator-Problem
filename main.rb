@@ -8,6 +8,7 @@ class TaxCalculator
   IMPORTED_TAX = 5
 
   def calculate(item)
+    tax = 0
     if item.check_item_exempt == true
       tax = exempt_tax(item.p_price)
     else
@@ -18,8 +19,9 @@ class TaxCalculator
     # puts "value for isImpored #{item.isImported}"
     if item.isImported
       tax += calculate_imported(item.p_price)
+      # puts "Printing #{item.p_name}  tax after import #{tax}"
     end
-    # puts "Printing #{item.p_name}  tax after import #{tax}"
+
     tax
   end
 
@@ -38,6 +40,31 @@ class TaxCalculator
   end
 end
 
+class Receipt
+  attr_accessor :tax_array
+  def initialize(tax_array)
+    @tax_array = tax_array
+  end
+  def Printing
+    # puts @tax_array.inspect
+    total_tax = 0
+    total_bill = 0
+    puts "Thank You for Shopping"
+    puts "Here is you Receipt"
+    @tax_array.each do |arr|
+      quant = arr[3]
+      tax = (arr[0] - arr[1])*quant
+      total_tax += tax
+      total_bill+=arr[0] * quant
+      name = arr[2]
+      quant = arr[3]
+      puts "#{quant} #{name} : #{arr[0]*quant}"
+    end
+    puts "Sales Tax: #{total_tax}"
+    puts "Total Bill: #{total_bill}"
+  end
+end
+
 class Cart
   def initialize(items)
     @items = items
@@ -48,13 +75,15 @@ class Cart
     @tax_arr = []
     @items.map do |item|
       tax = calc.calculate(item)
+      arr = [tax,item.p_price,item.p_name,item.p_quant]
       h = Hash.new
       h[item.p_name] = tax
-      @tax_arr.push(h)
+      @tax_arr.push(arr)
     end
   end
   def output_tax
-    puts @tax_arr.inspect
+    rec = Receipt.new(@tax_arr)
+    rec.Printing
   end
 end
 
@@ -85,7 +114,7 @@ class Item
     return @p_med
   end
   def check_item_exempt
-    puts "inside exempt"
+    # puts "inside exempt"
     if is_food or is_medicine or @p_name.downcase == "book"
       return true
     else
@@ -130,4 +159,5 @@ def start
   cart.output_tax
 end
 
+puts `clear`
 start
