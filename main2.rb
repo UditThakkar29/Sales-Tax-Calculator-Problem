@@ -17,7 +17,7 @@ class TaxCalculator
     # puts "value for check #{item.check_item_exempt?}"
     # puts "Printing #{item.p_name} tax without import #{tax}"
     # puts "value for isImpored #{item.isImported?}"
-    if item.isImported?
+    if item.is_imported?
       tax += calculate_imported(item.p_price)
       # puts "Printing #{item.p_name}  tax after import #{tax}"
     end
@@ -45,7 +45,7 @@ class Receipt
   def initialize(tax_array)
     @tax_array = tax_array
   end
-  def Printing
+  def printing
     # puts @tax_array.inspect
     puts `clear`
     puts "Enter Your Name here"
@@ -90,7 +90,7 @@ class Cart
   end
   def output_tax
     rec = Receipt.new(@tax_arr)
-    rec.Printing
+    rec.printing
   end
 end
 
@@ -107,18 +107,18 @@ class Item
     # puts "#{@p_name} #{@p_price} #{@p_quant} #{@imported}"
   end
 
-  def isImported?
+  def is_imported?
     @imported
   end
-  def is_food
+  def is_food?
     return @p_food
   end
-  def is_medicine
+  def is_medicine?
     return @p_med
   end
   def check_item_exempt?
     # puts "inside exempt"
-    if is_food or is_medicine or @p_name.downcase == "book"
+    if is_food? or is_medicine? or @p_name.downcase == "book"
       return true
     else
       return false

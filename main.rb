@@ -16,8 +16,8 @@ class TaxCalculator
     end
     # puts "value for check #{item.check_item_exempt?}"
     # puts "Printing #{item.p_name} tax without import #{tax}"
-    # puts "value for isImpored #{item.isImported?}"
-    if item.isImported?
+    # puts "value for isImpored #{item.is_imported?}"
+    if item.is_imported?
       tax += calculate_imported(item.p_price)
       # puts "Printing #{item.p_name}  tax after import #{tax}"
     end
@@ -45,7 +45,7 @@ class Receipt
   def initialize(tax_array)
     @tax_array = tax_array
   end
-  def Printing
+  def printing
     # puts @tax_array.inspect
     puts `clear`
     puts "Enter Your Name here"
@@ -90,7 +90,7 @@ class Cart
   end
   def output_tax
     rec = Receipt.new(@tax_arr)
-    rec.Printing
+    rec.printing
   end
 end
 
@@ -107,22 +107,22 @@ class Item
     # puts "#{@p_name} #{@p_price} #{@p_quant} #{@imported}"
   end
 
-  def isImported?
+  def is_imported?
     if @imported == 0
       return false
     else
       return true
     end
   end
-  def is_food
+  def is_food?
     return @p_food
   end
-  def is_medicine
+  def is_medicine?
     return @p_med
   end
   def check_item_exempt?
     # puts "inside exempt"
-    if is_food or is_medicine or @p_name.downcase == "book"
+    if is_food? or is_medicine? or @p_name.downcase == "book"
       return true
     else
       return false
@@ -158,7 +158,7 @@ def start
     imported = gets.chomp().to_i
     items << Item.new(product,price,quant,imported,food,med)
   end
-  # puts "Item 1 is imported #{items[0].isImported?}"
+  # puts "Item 1 is imported #{items[0].is_imported?}"
   cart = Cart.new(items)
   cart.total_bill
   cart.output_tax
